@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* The app is dark-only: tokens live on :root, and `.dark` is kept so shadcn variants still resolve. */
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-body);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Brand */
+  --color-ember: var(--ember);
+  --color-ember-soft: var(--ember-soft);
+  --color-ink: var(--ink);
+
+  /* Review verdicts (see src/config/verdicts.ts) */
+  --color-verdict-skip: var(--verdict-skip);
+  --color-verdict-one-time: var(--verdict-one-time);
+  --color-verdict-must: var(--verdict-must);
+  --color-verdict-masterpiece: var(--verdict-masterpiece);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --breakpoint-xs: 30rem;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces: a deep blue-black "theatre ink", carried over from the original #030014 */
+  --ink: oklch(0.13 0.025 285);
+  --background: oklch(0.13 0.025 285);
+  --foreground: oklch(0.97 0.006 285);
+  --card: oklch(0.18 0.025 285);
+  --card-foreground: oklch(0.97 0.006 285);
+  --popover: oklch(0.19 0.026 285);
+  --popover-foreground: oklch(0.97 0.006 285);
+  --secondary: oklch(0.24 0.025 285);
+  --secondary-foreground: oklch(0.97 0.006 285);
+  --muted: oklch(0.22 0.022 285);
+  --muted-foreground: oklch(0.72 0.02 285);
+  --accent: oklch(0.25 0.03 285);
+  --accent-foreground: oklch(0.97 0.006 285);
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 14%);
+
+  /* Brand accent: "ember" — a warm marquee red-orange */
+  --ember: oklch(0.66 0.21 32);
+  --ember-soft: oklch(0.66 0.21 32 / 16%);
+  --primary: var(--ember);
+  --primary-foreground: oklch(0.99 0 0);
+  --ring: oklch(0.66 0.21 32 / 70%);
+  --destructive: oklch(0.65 0.22 22);
+
+  --verdict-skip: oklch(0.64 0.2 22);
+  --verdict-one-time: oklch(0.8 0.15 80);
+  --verdict-must: oklch(0.74 0.17 150);
+  --verdict-masterpiece: oklch(0.72 0.17 300);
+
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  ::selection {
+    background: var(--ember-soft);
+  }
+}
+
+@utility hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-[90rem] px-4 sm:px-6 lg:px-10;
+}
+
+/* Lenis smooth scrolling (https://github.com/darkroomengineering/lenis) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
