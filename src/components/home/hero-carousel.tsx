@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { InfoIcon, StarIcon } from "lucide-react";
+import { InfoIcon, PlayIcon, StarIcon } from "lucide-react";
 import { TrailerButton } from "@/components/titles/detail/trailer-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,16 @@ const INTERVAL_MS = 8000;
  * Cinematic rotating hero: crossfading backdrops, logo art, trailer button.
  * Auto-advances (paused on hover/focus and for reduced-motion users).
  */
-export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
+export function HeroCarousel({
+  slides,
+  label = "Trending now",
+  eyebrow,
+}: {
+  slides: HeroSlide[];
+  label?: string;
+  /** Text above each title. Defaults to "#1 trending today", "#2 …". */
+  eyebrow?: string;
+}) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const reduceMotion = useReducedMotion();
@@ -41,7 +50,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
   return (
     <section
       aria-roledescription="carousel"
-      aria-label="Trending now"
+      aria-label={label}
       className="relative isolate flex min-h-[88svh] items-end overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -88,7 +97,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
             aria-live="polite"
           >
             <p className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-              <span className="font-medium text-ember">#{index + 1} trending today</span>
+              <span className="font-medium text-ember">{eyebrow ?? `#${index + 1} trending today`}</span>
               <span aria-hidden>•</span>
               <span>{slide.mediaType === "tv" ? "Show" : "Movie"}</span>
               {slide.year && (
@@ -141,7 +150,16 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              {slide.trailer && <TrailerButton trailer={slide.trailer} title={slide.title} />}
+              {slide.watchHref ? (
+                <Button asChild size="lg" className="gap-2 rounded-full">
+                  <Link href={slide.watchHref}>
+                    <PlayIcon className="size-4 fill-current" />
+                    Watch free
+                  </Link>
+                </Button>
+              ) : (
+                slide.trailer && <TrailerButton trailer={slide.trailer} title={slide.title} />
+              )}
               <Button asChild size="lg" variant="secondary" className="gap-2 rounded-full">
                 <Link href={href}>
                   <InfoIcon className="size-4" />

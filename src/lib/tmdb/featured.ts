@@ -17,7 +17,10 @@ export type HeroSlide = Pick<
   | "logoPath"
   | "trailer"
   | "certification"
->;
+> & {
+  /** When set, the primary button plays the film free instead of the trailer. */
+  watchHref?: string;
+};
 
 /** Today's top trending titles with backdrop, logo art and trailer, for the landing hero. */
 export async function getHeroSlides(count = 6): Promise<HeroSlide[]> {

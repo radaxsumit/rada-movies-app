@@ -15,6 +15,8 @@ export interface DiscoverFilters {
   /** Only titles made in this country (ISO 3166-1), e.g. "IN". */
   originCountry?: string;
   year?: number;
+  /** Only titles streaming free (incl. with ads) on some service in our region. */
+  freeOnly?: boolean;
 }
 
 export interface TitlePage {
@@ -59,6 +61,9 @@ export async function discover(mediaType: MediaType, filters: DiscoverFilters = 
     with_original_language: filters.language,
     with_origin_country: filters.originCountry,
     [yearField]: filters.year,
+    ...(filters.freeOnly && !filters.provider
+      ? { watch_region: site.watchRegion, with_watch_monetization_types: "free|ads" }
+      : {}),
     ...(filters.provider
       ? {
           with_watch_providers: filters.provider,

@@ -5,7 +5,8 @@ import { TitleDetailSkeleton, TitleDetailView } from "@/components/titles/detail
 import { getPopular } from "@/lib/tmdb/client";
 import { getMovie } from "@/lib/tmdb/details";
 import { titleMetadata } from "@/lib/metadata";
-import { parseIdParam, slugify } from "@/lib/routes";
+import { getFreeOffer } from "@/lib/free";
+import { parseIdParam, slugify, watchHref } from "@/lib/routes";
 
 /** Prebuild today's most popular movies; every other movie renders on first visit, then is cached. */
 export async function generateStaticParams() {
@@ -29,7 +30,7 @@ export default function MoviePage({ params }: PageProps<"/movie/[id]">) {
 
 async function MovieDetail({ params }: Pick<PageProps<"/movie/[id]">, "params">) {
   const id = parseIdParam((await params).id);
-  const movie = id ? await getMovie(id) : null;
+  const [movie, free] = id ? await Promise.all([getMovie(id), getFreeOffer("movie", id)]) : [null, null];
   if (!movie) notFound();
-  return <TitleDetailView title={movie} />;
+  return <TitleDetailView title={movie} watchHref={free ? watchHref("movie", movie.id, movie.title) : undefined} />;
 }

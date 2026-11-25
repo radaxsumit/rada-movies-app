@@ -9,6 +9,7 @@ import { streamingServices } from "@/config/discovery";
 import type { DiscoverFilters } from "@/lib/tmdb/discover";
 import { discover, getTopRated, getUpcomingMovies } from "@/lib/tmdb/discover";
 import { getTrending } from "@/lib/tmdb/client";
+import { getFreeCatalogue, toFreeCard } from "@/lib/free";
 import { getHeroSlides } from "@/lib/tmdb/featured";
 import type { MediaType, TitleCard } from "@/lib/tmdb/types";
 
@@ -23,6 +24,12 @@ export default function HomePage() {
 
       <div className="relative z-10 mt-2 space-y-14">
         <Row heading="Trending today" eyebrow="Hot right now" load={() => getTrending("day")} priority />
+        <Row
+          heading="Watch free now"
+          eyebrow="Full movies · Free & legal"
+          load={async () => (await getFreeCatalogue()).slice(0, 20).map(toFreeCard)}
+          seeAllHref="/free"
+        />
         <MoodChips />
         <DiscoverRow
           heading="Popular Indian movies"
