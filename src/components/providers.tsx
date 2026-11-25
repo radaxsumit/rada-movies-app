@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactLenis } from "lenis/react";
+import { ViewerProvider } from "@/components/auth/viewer-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -20,10 +21,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactLenis root options={{ lerp: 0.1, smoothWheel: true }} />
-      <TooltipProvider delayDuration={200}>
-        {children}
-        <Toaster position="bottom-center" />
-      </TooltipProvider>
+      <ViewerProvider>
+        <TooltipProvider delayDuration={200}>
+          {children}
+          <Toaster position="bottom-center" />
+        </TooltipProvider>
+      </ViewerProvider>
     </QueryClientProvider>
   );
 }

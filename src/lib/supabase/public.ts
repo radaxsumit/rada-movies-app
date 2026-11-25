@@ -2,15 +2,20 @@ import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import { cacheLife, cacheTag } from "next/cache";
 import type { MediaType } from "@/lib/tmdb/types";
+import type { Database } from "./database.types";
 
 /**
  * Cookie-less Supabase client for public, cacheable reads (verdict stats, public reviews).
  * It acts as the anonymous role, so RLS only lets it see public rows.
  */
-function publicClient() {
-  return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
+export function publicClient() {
+  return createClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    {
+      auth: { persistSession: false, autoRefreshToken: false },
+    },
+  );
 }
 
 export interface TitleStats {

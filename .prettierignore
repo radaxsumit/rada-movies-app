@@ -4,3 +4,4 @@ package-lock.json
 src/components/ui
 supabase/migrations
 screenshorts
+src/lib/supabase/database.types.ts

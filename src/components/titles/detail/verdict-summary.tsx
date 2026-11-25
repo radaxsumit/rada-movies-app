@@ -46,9 +46,7 @@ export async function VerdictSummary({ mediaType, tmdbId }: { mediaType: MediaTy
         ))}
       </ul>
 
-      {total === 0 && (
-        <p className="text-sm text-muted-foreground">Be the first to give your verdict — reviews open soon.</p>
-      )}
+      {total === 0 && <p className="text-sm text-muted-foreground">Be the first to give your verdict.</p>}
     </section>
   );
 }

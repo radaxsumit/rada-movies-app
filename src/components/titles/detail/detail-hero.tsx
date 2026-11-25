@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BookmarkPlusIcon, PenLineIcon, StarIcon } from "lucide-react";
+import { StarIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { formatRuntime } from "@/lib/format";
 import { personHref } from "@/lib/routes";
 import { backdropUrl, logoUrl, posterUrl } from "@/lib/tmdb/images";
 import type { TitleDetail } from "@/lib/tmdb/types";
+import { TitleActions } from "@/components/reviews/title-actions";
 import { TrailerButton } from "./trailer-button";
 
 export function DetailHero({ title }: { title: TitleDetail }) {
@@ -109,15 +109,7 @@ export function DetailHero({ title }: { title: TitleDetail }) {
 
           <div className="flex flex-wrap gap-3 pt-1">
             {title.trailer && <TrailerButton trailer={title.trailer} title={title.title} />}
-            {/* Watchlist + reviews need sign-in: Phase 3 */}
-            <Button size="lg" variant="secondary" className="gap-2 rounded-full" disabled>
-              <BookmarkPlusIcon className="size-4" />
-              Watchlist
-            </Button>
-            <Button size="lg" variant="secondary" className="gap-2 rounded-full" disabled>
-              <PenLineIcon className="size-4" />
-              Review
-            </Button>
+            <TitleActions mediaType={title.mediaType} tmdbId={title.id} title={title.title} />
           </div>
         </div>
       </div>

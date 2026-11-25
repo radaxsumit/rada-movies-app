@@ -68,12 +68,23 @@ Create a Supabase project, then apply the schema:
 - **Dashboard:** SQL Editor → paste `supabase/migrations/20261125000000_init.sql` → Run, or
 - **CLI:** `npx supabase link --project-ref <ref>` then `npx supabase db push`.
 
+### Sign-in setup (Supabase dashboard)
+
+1. **Authentication → URL Configuration**
+   - Site URL: `http://localhost:3000` (your real domain in production)
+   - Redirect URLs: add `http://localhost:3000/**` (and `https://<your-domain>/**` later)
+2. **Email**: works out of the box, but Supabase's built-in mailer only sends a few emails per hour.
+   Before launch, add your own SMTP (e.g. Resend) under **Authentication → Emails → SMTP Settings**.
+3. **Google (optional)**: create an OAuth client in Google Cloud Console (type _Web application_,
+   redirect URI `https://varfphmktrxixbotczvj.supabase.co/auth/v1/callback`), then paste the client ID and
+   secret into **Authentication → Providers → Google**. The "Continue with Google" button appears automatically.
+
 ## Roadmap
 
 - **Phase 0 – Foundation** ✅ Next.js + TS, design tokens, shadcn/ui, TMDB service, Supabase clients + schema
 - **Phase 1 – Core** ✅ Movie, show, season and person pages (trailer, where to watch, cast, verdict summary, more like this), 404 + error pages
 - **Phase 2 – Discovery** ✅ Rotating trailer hero, Embla carousel rows (trending, Indian, Netflix/Prime/JioHotstar, upcoming, top rated), mood chips, Ctrl+K search + /search, /movies and /tv browse with filters and infinite scroll, mobile menu
-- **Phase 3 – Community** Auth, profiles, verdict reviews, likes, comments, spoiler blur, watchlist
+- **Phase 3 – Community** ✅ Email magic-link sign-in (+ Google when enabled), onboarding, profiles at /u/[username], four-verdict reviews with spoiler blur, likes, comments with replies, watchlist
 - **Phase 4 – Fun** Lists, diary, follows feed, mood tags, watch rooms
 - **Phase 5 – Ship** SEO/OG images, analytics, Sentry, moderation, custom domain
 

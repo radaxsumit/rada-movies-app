@@ -6,6 +6,7 @@ import { TitleRow } from "@/components/titles/title-row";
 import { seasonHref } from "@/lib/routes";
 import { posterUrl } from "@/lib/tmdb/images";
 import type { TitleDetail } from "@/lib/tmdb/types";
+import { ReviewsSection, ReviewsSkeleton } from "@/components/reviews/reviews-section";
 import { CastRow } from "./cast-row";
 import { DetailHero } from "./detail-hero";
 import { TitleFacts } from "./title-facts";
@@ -21,6 +22,9 @@ export function TitleDetailView({ title }: { title: TitleDetail }) {
       <div className="container-page grid gap-10 py-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="min-w-0 space-y-12">
           <CastRow heading={title.mediaType === "tv" ? "Series cast" : "Cast"} people={title.cast} />
+          <Suspense fallback={<ReviewsSkeleton />}>
+            <ReviewsSection mediaType={title.mediaType} tmdbId={title.id} />
+          </Suspense>
           {title.mediaType === "tv" && <SeasonGrid title={title} />}
           {title.recommendations.length > 0 && (
             <TitleRow heading="More like this" titles={title.recommendations} contained={false} />
