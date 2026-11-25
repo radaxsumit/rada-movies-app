@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "@/components/providers";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -30,6 +32,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main className="flex-1">{children}</main>
           <SiteFooter />
         </Providers>
+        {/* Cookieless page-view and performance stats; active once deployed on Vercel. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

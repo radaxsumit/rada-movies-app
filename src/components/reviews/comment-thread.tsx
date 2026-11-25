@@ -9,6 +9,7 @@ import { useViewer } from "@/components/auth/viewer-provider";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import type { Comment } from "@/lib/reviews";
+import { ReportButton } from "./report-button";
 import { AuthorChip, TimeAgo, useRequireSignIn } from "./review-bits";
 
 /** Comments under a review, one level of replies (Moctale-style). */
@@ -84,6 +85,7 @@ function CommentItem({ reviewId, comment, canReply }: { reviewId: string; commen
             <CornerDownRightIcon className="size-3" /> Reply
           </button>
         )}
+        <ReportButton target={{ commentId: comment.id }} authorId={comment.author.id} className="px-0 py-0" />
         {mine && (
           <button
             type="button"

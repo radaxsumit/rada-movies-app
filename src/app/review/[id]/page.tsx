@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { CommentThread } from "@/components/reviews/comment-thread";
+import { ReportButton } from "@/components/reviews/report-button";
 import { AuthorChip, LikeButton, ReviewBody, TimeAgo, VerdictBadge } from "@/components/reviews/review-bits";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getVerdict } from "@/config/verdicts";
@@ -89,7 +90,10 @@ async function ReviewDetail({ params }: Pick<Props, "params">) {
         ) : (
           <p className="text-muted-foreground italic">Verdict only — no written review.</p>
         )}
-        <LikeButton reviewId={review.id} count={review.likeCount} />
+        <div className="flex items-center gap-2">
+          <LikeButton reviewId={review.id} count={review.likeCount} />
+          <ReportButton target={{ reviewId: review.id }} authorId={review.author.id} className="ml-auto" />
+        </div>
       </section>
 
       <CommentThread reviewId={review.id} comments={comments} />

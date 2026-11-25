@@ -9,6 +9,7 @@ import type { TitleDetail } from "@/lib/tmdb/types";
 import { ReviewsSection, ReviewsSkeleton } from "@/components/reviews/reviews-section";
 import { CastRow } from "./cast-row";
 import { DetailHero } from "./detail-hero";
+import { TitleJsonLd } from "./title-json-ld";
 import { TitleFacts } from "./title-facts";
 import { VerdictSummary, VerdictSummarySkeleton } from "./verdict-summary";
 import { WhereToWatch } from "./where-to-watch";
@@ -17,6 +18,7 @@ import { WhereToWatch } from "./where-to-watch";
 export function TitleDetailView({ title }: { title: TitleDetail }) {
   return (
     <article>
+      <TitleJsonLd title={title} />
       <DetailHero title={title} />
 
       <div className="container-page grid gap-10 py-8 lg:grid-cols-[minmax(0,1fr)_22rem]">

@@ -1,5 +1,5 @@
 /**
- * Generated from the live Supabase schema (project rada-movies) via the Supabase connector.
+ * Generated from the live Supabase schema (project rada-movies).
  * Regenerate after schema changes: `npx supabase gen types typescript --project-id varfphmktrxixbotczvj`.
  */
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
@@ -11,6 +11,14 @@ export type Database = {
   __InternalSupabase: { PostgrestVersion: "14.18" };
   public: {
     Tables: {
+      admins: {
+        Row: { created_at: string; user_id: string };
+        Insert: { created_at?: string; user_id: string };
+        Update: { created_at?: string; user_id?: string };
+        Relationships: [
+          { foreignKeyName: "admins_user_id_fkey"; columns: ["user_id"]; isOneToOne: true; referencedRelation: "profiles"; referencedColumns: ["id"] },
+        ];
+      };
       diary_entries: {
         Row: { created_at: string; id: string; media_type: MediaType; rewatch: boolean; tmdb_id: number; user_id: string; watched_on: string };
         Insert: { created_at?: string; id?: string; media_type: MediaType; rewatch?: boolean; tmdb_id: number; user_id: string; watched_on?: string };
@@ -105,7 +113,9 @@ export type Database = {
     Views: { [_ in never]: never };
     Functions: {
       bump_title_stats: { Args: { p_delta: number; p_tmdb: number; p_type: MediaType; p_verdict: Verdict }; Returns: undefined };
+      delete_my_account: { Args: Record<PropertyKey, never>; Returns: undefined };
       generate_username: { Args: { seed: string }; Returns: string };
+      is_admin: { Args: Record<PropertyKey, never>; Returns: boolean };
     };
     Enums: {
       media_type: "movie" | "tv";

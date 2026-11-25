@@ -8,6 +8,11 @@ export const site = {
   tagline: "Find what to watch. Say what you thought.",
   description: "Discover movies and shows, see where to stream them, and share honest one-word verdicts with friends.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  /**
+   * Public contact for privacy requests and grievances (shown on /about, /privacy, /terms).
+   * TODO before launch: replace with a real inbox you check, ideally on your own domain.
+   */
+  contactEmail: "privacy@example.com",
   /** Default region for "where to watch" data (ISO 3166-1). */
   watchRegion: "IN",
   nav: [

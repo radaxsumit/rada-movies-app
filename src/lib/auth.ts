@@ -49,7 +49,28 @@ export async function requireViewer(returnTo: string): Promise<Viewer> {
   return viewer;
 }
 
-/** Only allow same-site relative paths as post-login redirects (prevents open redirects). */
+/**
+ * Only allow same-site paths as post-login redirects (prevents open redirects).
+ * Parses the value the way a browser would — browsers strip tabs/newlines and treat "\" as "/",
+ * so "/\t/evil.com" would otherwise become "//evil.com" — and returns just path + query + hash.
+ */
 export function safeNext(next: string | null | undefined, fallback = "/") {
-  return next && next.startsWith("/") && !next.startsWith("//") && !next.startsWith("/\\") ? next : fallback;
+  if (!next || !next.startsWith("/") || /[\u0000-\u001f\u007f\\]/.test(next)) return fallback;
+  try {
+    const base = "https://same-origin.invalid";
+    const url = new URL(next, base);
+    if (url.origin !== base) return fallback;
+    const path = `${url.pathname}${url.search}${url.hash}`;
+    return path.startsWith("//") ? fallback : path;
+  } catch {
+    return fallback;
+  }
+}
+
+/** Whether the signed-in user is a moderator (checked in the database, never trusted from the client). */
+export async function isAdmin(): Promise<boolean> {
+  await connection();
+  const supabase = await createClient();
+  const { data } = await supabase.rpc("is_admin");
+  return data === true;
 }

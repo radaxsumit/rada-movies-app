@@ -1,9 +1,12 @@
 import type { NextRequest } from "next/server";
 import { parseFilters, parsePage } from "@/lib/discover-params";
+import { rateLimit } from "@/lib/ip-rate-limit";
 import { discover } from "@/lib/tmdb/discover";
 
 /** GET /api/discover?type=movie&page=2&genre=28… — next pages for the browse grid's infinite scroll. */
 export async function GET(request: NextRequest) {
+  const limited = rateLimit(request, "discover", 60);
+  if (limited) return limited;
   const params = request.nextUrl.searchParams;
   const type = params.get("type");
   if (type !== "movie" && type !== "tv") {

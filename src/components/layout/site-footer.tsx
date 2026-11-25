@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { site } from "@/config/site";
 
@@ -8,6 +9,17 @@ export function SiteFooter() {
         <div className="max-w-sm space-y-3">
           <Logo />
           <p>{site.tagline}</p>
+          <nav aria-label="Footer" className="flex gap-4">
+            <Link href="/about" className="hover:text-foreground">
+              About
+            </Link>
+            <Link href="/privacy" className="hover:text-foreground">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-foreground">
+              Terms
+            </Link>
+          </nav>
         </div>
         {/* TMDB requires this attribution: https://www.themoviedb.org/api-terms-of-use */}
         <p className="max-w-md md:text-right">

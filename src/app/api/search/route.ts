@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { rateLimit } from "@/lib/ip-rate-limit";
 import { searchMulti } from "@/lib/tmdb/discover";
 
 /**
@@ -6,6 +7,8 @@ import { searchMulti } from "@/lib/tmdb/discover";
  * Thin proxy so the TMDB token stays on the server; results are cached per query.
  */
 export async function GET(request: NextRequest) {
+  const limited = rateLimit(request, "search", 90);
+  if (limited) return limited;
   const q = (request.nextUrl.searchParams.get("q") ?? "").trim();
   if (q.length < 2) return Response.json({ query: q, titles: [], people: [] });
 

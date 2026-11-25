@@ -5,6 +5,7 @@ import { z } from "zod";
 import { getViewer } from "@/lib/auth";
 import { socialTags } from "@/lib/social";
 import { createClient } from "@/lib/supabase/server";
+import { limitMessage } from "@/lib/rate-limit";
 import type { ActionResult } from "./reviews";
 
 /** Lists, diary and follows. Same rules as reviews: re-check the user, write via RLS, refresh caches. */
@@ -46,7 +47,7 @@ export async function createList(
     })
     .select("id")
     .single();
-  if (error || !data) return { ok: false, error: "Couldn’t create the list." };
+  if (error || !data) return { ok: false, error: limitMessage(error) ?? "Couldn’t create the list." };
 
   const first = input.firstItem ? titleRef.safeParse(input.firstItem) : null;
   if (first?.success) {
@@ -161,7 +162,7 @@ export async function logWatch(input: z.input<typeof diaryInput>): Promise<Actio
     })
     .select("id")
     .single();
-  if (error || !data) return { ok: false, error: "Couldn’t log that watch." };
+  if (error || !data) return { ok: false, error: limitMessage(error) ?? "Couldn’t log that watch." };
   updateTag(socialTags.diary(viewer.id));
   return { ok: true, data: { id: data.id } };
 }

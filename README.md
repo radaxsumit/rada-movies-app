@@ -79,6 +79,17 @@ Create a Supabase project, then apply the schema:
    redirect URI `https://varfphmktrxixbotczvj.supabase.co/auth/v1/callback`), then paste the client ID and
    secret into **Authentication → Providers → Google**. The "Continue with Google" button appears automatically.
 
+### Moderation
+
+People can report reviews and comments. Admins review them at `/admin/reports` (everyone else gets a 404).
+Make someone an admin in the Supabase SQL editor:
+
+```sql
+insert into public.admins (user_id) select id from public.profiles where username = 'their_username';
+```
+
+Writes are rate-limited in the database (e.g. 30 reviews, 60 comments, 300 likes per user per hour).
+
 ## Roadmap
 
 - **Phase 0 – Foundation** ✅ Next.js + TS, design tokens, shadcn/ui, TMDB service, Supabase clients + schema
@@ -86,7 +97,7 @@ Create a Supabase project, then apply the schema:
 - **Phase 2 – Discovery** ✅ Rotating trailer hero, Embla carousel rows (trending, Indian, Netflix/Prime/JioHotstar, upcoming, top rated), mood chips, Ctrl+K search + /search, /movies and /tv browse with filters and infinite scroll, mobile menu
 - **Phase 3 – Community** ✅ Email magic-link sign-in (+ Google when enabled), onboarding, profiles at /u/[username], four-verdict reviews with spoiler blur, likes, comments with replies, watchlist
 - **Phase 4 – Social** ✅ Custom lists (public/private) at /lists, watch diary, follows, friends' activity feed at /feed, profile tabs
-- **Phase 5 – Ship** SEO/OG images, analytics, Sentry, moderation, custom domain
+- **Phase 5 – Launch prep** ✅ Sitemap, robots, share image, structured data, app manifest, reporting + admin moderation, rate limits, delete-account, About/Privacy/Terms, security headers, Vercel Analytics, security audit fixes
 
 ## Attribution
 

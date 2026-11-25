@@ -6,6 +6,7 @@ import { LockIcon, MessageCircleIcon } from "lucide-react";
 import { useViewer } from "@/components/auth/viewer-provider";
 import { Button } from "@/components/ui/button";
 import type { Review } from "@/lib/reviews";
+import { ReportButton } from "./report-button";
 import { AuthorChip, LikeButton, ReviewBody, TimeAgo, VerdictBadge } from "./review-bits";
 
 /** Reviews shown to visitors before asking them to join (the rest stay blurred). */
@@ -81,6 +82,7 @@ export function ReviewCard({ review, showTitleLink }: { review: Review; showTitl
           <span className="tabular-nums">{review.commentCount}</span>
           <span className="sr-only">comments</span>
         </Link>
+        <ReportButton target={{ reviewId: review.id }} authorId={review.author.id} />
         <Link href={`/review/${review.id}`} className="ml-auto text-xs text-muted-foreground hover:text-foreground">
           Open review →
         </Link>

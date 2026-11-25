@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { DeleteAccount } from "@/components/auth/delete-account";
 import { ProfileForm } from "@/components/auth/profile-form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { requireViewer } from "@/lib/auth";
@@ -23,9 +24,12 @@ async function Settings() {
   const supabase = await createClient();
   const { data } = await supabase.from("profiles").select("bio").eq("id", viewer.id).single();
   return (
-    <ProfileForm
-      submitLabel="Save changes"
-      defaults={{ username: viewer.username, displayName: viewer.displayName ?? "", bio: data?.bio ?? "" }}
-    />
+    <div className="space-y-10">
+      <ProfileForm
+        submitLabel="Save changes"
+        defaults={{ username: viewer.username, displayName: viewer.displayName ?? "", bio: data?.bio ?? "" }}
+      />
+      <DeleteAccount username={viewer.username} />
+    </div>
   );
 }

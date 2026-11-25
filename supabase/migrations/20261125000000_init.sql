@@ -2,7 +2,7 @@
 -- watchlist, lists, diary, reports. Titles are referenced by TMDB id + media type;
 -- TMDB stays the source of truth for movie data.
 --
--- Applied to project rada-movies (ap-south-1) on 2026-11-25 via the Supabase connector.
+-- Applied to project rada-movies (ap-south-1) on 2026-11-25.
 
 create extension if not exists citext with schema extensions;
 

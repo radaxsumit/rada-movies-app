@@ -5,6 +5,7 @@ import { z } from "zod";
 import { getViewer } from "@/lib/auth";
 import { reviewTags } from "@/lib/reviews";
 import { createClient } from "@/lib/supabase/server";
+import { limitMessage } from "@/lib/rate-limit";
 
 /**
  * Every action re-checks the signed-in user on the server (never trusting the client), writes
@@ -57,7 +58,7 @@ export async function saveReview(input: z.input<typeof reviewInput>): Promise<Ac
     )
     .select("id")
     .single();
-  if (error || !data) return { ok: false, error: "Couldn’t save your review. Try again." };
+  if (error || !data) return { ok: false, error: limitMessage(error) ?? "Couldn’t save your review. Try again." };
 
   refreshTitle(type, id, viewer.id);
   updateTag(reviewTags.review(data.id));
@@ -137,7 +138,7 @@ export async function addComment(input: z.input<typeof commentInput>): Promise<A
     })
     .select("id")
     .single();
-  if (error || !data) return { ok: false, error: "Couldn’t post your comment." };
+  if (error || !data) return { ok: false, error: limitMessage(error) ?? "Couldn’t post your comment." };
 
   const { data: review } = await supabase
     .from("reviews")
