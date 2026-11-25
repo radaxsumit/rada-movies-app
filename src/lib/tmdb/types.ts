@@ -168,3 +168,11 @@ export interface PersonDetail {
   knownFor: TitleCard[];
   filmography: FilmographyItem[];
 }
+
+export interface PersonCard {
+  id: number;
+  name: string;
+  profilePath: string | null;
+  /** e.g. "Acting · Drive, La La Land" */
+  knownFor: string;
+}

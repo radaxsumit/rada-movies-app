@@ -35,6 +35,12 @@ export function TitleCard({
             {title.rating.toFixed(1)}
           </span>
         )}
+        {/* Hover peek: synopsis slides up over the poster (pointer devices only). */}
+        {title.overview && (
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden translate-y-3 bg-gradient-to-t from-background via-background/90 to-transparent p-3 pt-10 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 pointer-fine:block">
+            <p className="line-clamp-4 text-xs leading-snug text-foreground/90">{title.overview}</p>
+          </div>
+        )}
       </div>
       <p className="mt-2 line-clamp-1 text-sm font-medium">{title.title}</p>
       <p className="text-xs text-muted-foreground">

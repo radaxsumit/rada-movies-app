@@ -1,88 +1,121 @@
-import Image from "next/image";
 import { Suspense } from "react";
-import { TitleRow, TitleRowSkeleton } from "@/components/titles/title-row";
-import { site } from "@/config/site";
-import { verdicts } from "@/config/verdicts";
-import { getPopular, getTrending } from "@/lib/tmdb/client";
-import { backdropUrl } from "@/lib/tmdb/images";
+import { HeroCarousel } from "@/components/home/hero-carousel";
+import { MoodChips } from "@/components/home/mood-chips";
+import { ServiceGrid } from "@/components/home/service-grid";
+import { TitleCarousel } from "@/components/titles/title-carousel";
+import { TitleRowSkeleton } from "@/components/titles/title-row";
+import { Skeleton } from "@/components/ui/skeleton";
+import { streamingServices } from "@/config/discovery";
+import type { DiscoverFilters } from "@/lib/tmdb/discover";
+import { discover, getTopRated, getUpcomingMovies } from "@/lib/tmdb/discover";
+import { getTrending } from "@/lib/tmdb/client";
+import { getHeroSlides } from "@/lib/tmdb/featured";
+import type { MediaType, TitleCard } from "@/lib/tmdb/types";
 
-/**
- * Phase 0 home: proves the pipeline (server-only TMDB → cached → rendered).
- * Phase 2 replaces this with the full landing page (rotating trailer hero, Embla rows, mood tags).
- */
+const service = (slug: string) => streamingServices.find((s) => s.slug === slug)!;
+
 export default function HomePage() {
   return (
     <>
-      <Suspense fallback={<HeroShell />}>
+      <Suspense fallback={<HeroSkeleton />}>
         <Hero />
       </Suspense>
 
-      <div className="relative z-10 -mt-24 space-y-12">
-        <Suspense fallback={<TitleRowSkeleton heading="Trending today" />}>
-          <TrendingRow />
-        </Suspense>
-        <Suspense fallback={<TitleRowSkeleton heading="Popular movies" />}>
-          <PopularRow />
-        </Suspense>
+      <div className="relative z-10 mt-2 space-y-14">
+        <Row heading="Trending today" eyebrow="Hot right now" load={() => getTrending("day")} priority />
+        <MoodChips />
+        <DiscoverRow
+          heading="Popular Indian movies"
+          mediaType="movie"
+          filters={{ originCountry: "IN" }}
+          seeAllHref="/movies?origin=IN"
+        />
+        <DiscoverRow
+          heading="Top shows on Netflix"
+          eyebrow="Streaming in India"
+          mediaType="tv"
+          filters={{ provider: service("netflix").id }}
+          seeAllHref={`/tv?provider=${service("netflix").id}`}
+        />
+        <DiscoverRow
+          heading="Top movies on Prime Video"
+          eyebrow="Streaming in India"
+          mediaType="movie"
+          filters={{ provider: service("prime-video").id }}
+          seeAllHref={`/movies?provider=${service("prime-video").id}`}
+        />
+        <DiscoverRow
+          heading="Top movies on JioHotstar"
+          eyebrow="Streaming in India"
+          mediaType="movie"
+          filters={{ provider: service("jiohotstar").id }}
+          seeAllHref={`/movies?provider=${service("jiohotstar").id}`}
+        />
+        <Row heading="Coming soon to cinemas" eyebrow="In theatres" load={getUpcomingMovies} />
+        <ServiceGrid />
+        <Row
+          heading="All-time greats"
+          eyebrow="Top rated"
+          load={() => getTopRated("movie")}
+          seeAllHref="/movies?sort=top"
+        />
       </div>
     </>
   );
 }
 
 async function Hero() {
-  const trending = await getTrending("day");
-  const feature = trending.find((t) => t.backdropPath) ?? null;
-  const image = backdropUrl(feature?.backdropPath, "original");
+  const slides = await getHeroSlides();
+  return <HeroCarousel slides={slides} />;
+}
 
+/** A carousel row that streams in independently, so one slow request never blocks the page. */
+function Row(props: {
+  heading: string;
+  eyebrow?: string;
+  seeAllHref?: string;
+  priority?: boolean;
+  load: () => Promise<TitleCard[]>;
+}) {
   return (
-    <HeroShell
-      background={
-        image && <Image src={image} alt="" fill priority sizes="100vw" className="object-cover object-top opacity-60" />
-      }
-    >
-      {feature && (
-        <p className="text-sm text-muted-foreground">
-          Trending now: <span className="font-medium text-foreground">{feature.title}</span>
-        </p>
-      )}
-    </HeroShell>
+    <Suspense fallback={<TitleRowSkeleton heading={props.heading} />}>
+      <RowContent {...props} />
+    </Suspense>
   );
 }
 
-function HeroShell({ background, children }: { background?: React.ReactNode; children?: React.ReactNode }) {
-  return (
-    <section className="relative isolate flex min-h-[78vh] items-end overflow-hidden pt-16">
-      <div className="absolute inset-0 -z-10">
-        {background}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/30 to-transparent" />
-      </div>
+async function RowContent({ load, ...rest }: Parameters<typeof Row>[0]) {
+  const titles = await load();
+  return <TitleCarousel {...rest} titles={titles} />;
+}
 
-      <div className="container-page pb-36">
-        <h1 className="max-w-3xl font-display text-6xl leading-[0.9] tracking-wide sm:text-8xl">
-          Find your next <span className="text-ember">favourite</span> film.
-        </h1>
-        <p className="mt-5 max-w-xl text-lg text-muted-foreground">{site.description}</p>
-        <ul className="mt-6 flex flex-wrap gap-2" aria-label="Review verdicts">
-          {verdicts.map((v) => (
-            <li key={v.id} className="rounded-full border bg-background/50 px-3 py-1 text-sm backdrop-blur">
-              <span className={`mr-1.5 inline-block size-2 rounded-full ${v.bgClass}`} />
-              {v.label}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-6">{children}</div>
+function DiscoverRow({
+  mediaType,
+  filters,
+  ...rest
+}: {
+  heading: string;
+  eyebrow?: string;
+  seeAllHref?: string;
+  mediaType: MediaType;
+  filters: DiscoverFilters;
+}) {
+  return <Row {...rest} load={async () => (await discover(mediaType, filters)).results} />;
+}
+
+function HeroSkeleton() {
+  return (
+    <section className="relative flex min-h-[88svh] items-end" aria-busy="true" aria-label="Loading">
+      <div className="container-page space-y-5 pb-32">
+        <Skeleton className="h-4 w-48" />
+        <Skeleton className="h-28 w-96 max-w-full" />
+        <Skeleton className="h-4 w-full max-w-xl" />
+        <Skeleton className="h-4 w-full max-w-lg" />
+        <div className="flex gap-3">
+          <Skeleton className="h-10 w-36 rounded-full" />
+          <Skeleton className="h-10 w-32 rounded-full" />
+        </div>
       </div>
     </section>
   );
-}
-
-async function TrendingRow() {
-  const titles = await getTrending("day");
-  return <TitleRow heading="Trending today" titles={titles} />;
-}
-
-async function PopularRow() {
-  const titles = await getPopular("movie");
-  return <TitleRow heading="Popular movies" titles={titles} />;
 }

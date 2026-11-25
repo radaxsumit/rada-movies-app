@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SearchIcon, UserIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
+import { MobileNav } from "@/components/layout/mobile-nav";
+import { SearchCommand } from "@/components/search/search-command";
 import { Button } from "@/components/ui/button";
 import { site } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -52,17 +54,13 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
-          {/* Command-palette search arrives in Phase 2 */}
-          <Button variant="secondary" size="sm" className="gap-2 rounded-full text-muted-foreground" disabled>
-            <SearchIcon className="size-4" />
-            <span className="hidden sm:inline">Search</span>
-            <kbd className="hidden rounded border px-1.5 text-[10px] sm:inline">Ctrl K</kbd>
-          </Button>
+          <SearchCommand />
           {/* Auth arrives in Phase 3 */}
-          <Button size="sm" className="gap-2 rounded-full" disabled>
+          <Button size="sm" className="hidden gap-2 rounded-full sm:inline-flex" disabled>
             <UserIcon className="size-4" />
             Sign in
           </Button>
+          <MobileNav />
         </div>
       </div>
     </header>

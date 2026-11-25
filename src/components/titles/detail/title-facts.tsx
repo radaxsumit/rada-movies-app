@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { formatDate, formatMoney, languageName } from "@/lib/format";
 import { personHref } from "@/lib/routes";
 import { providerLogoUrl } from "@/lib/tmdb/images";
@@ -64,13 +63,15 @@ export function TitleFacts({ title }: { title: TitleDetail }) {
       {title.keywords.length > 0 && (
         <div className="space-y-2">
           <h3 className="text-xs font-medium tracking-wider text-muted-foreground uppercase">Vibes</h3>
-          {/* Phase 2 links these to mood-based discovery */}
           <ul className="flex flex-wrap gap-1.5">
             {title.keywords.map((k) => (
               <li key={k.id}>
-                <Badge variant="outline" className="rounded-full capitalize">
+                <Link
+                  href={`/${title.mediaType === "tv" ? "tv" : "movies"}?keyword=${k.id}`}
+                  className="inline-flex rounded-full border px-2.5 py-0.5 text-xs font-medium capitalize transition hover:border-ember/60 hover:bg-ember-soft"
+                >
                   {k.name}
-                </Badge>
+                </Link>
               </li>
             ))}
           </ul>

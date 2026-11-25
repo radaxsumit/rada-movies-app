@@ -72,7 +72,7 @@ Create a Supabase project, then apply the schema:
 
 - **Phase 0 – Foundation** ✅ Next.js + TS, design tokens, shadcn/ui, TMDB service, Supabase clients + schema
 - **Phase 1 – Core** ✅ Movie, show, season and person pages (trailer, where to watch, cast, verdict summary, more like this), 404 + error pages
-- **Phase 2 – Discovery** Landing hero with trailers, Embla rows, "On Netflix / Prime / JioHotstar" rows, Ctrl+K search, filters
+- **Phase 2 – Discovery** ✅ Rotating trailer hero, Embla carousel rows (trending, Indian, Netflix/Prime/JioHotstar, upcoming, top rated), mood chips, Ctrl+K search + /search, /movies and /tv browse with filters and infinite scroll, mobile menu
 - **Phase 3 – Community** Auth, profiles, verdict reviews, likes, comments, spoiler blur, watchlist
 - **Phase 4 – Fun** Lists, diary, follows feed, mood tags, watch rooms
 - **Phase 5 – Ship** SEO/OG images, analytics, Sentry, moderation, custom domain
