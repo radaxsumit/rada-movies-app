@@ -1,5 +1,6 @@
 import "server-only";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 export interface Viewer {
@@ -16,6 +17,9 @@ export interface Viewer {
  * never the raw session.
  */
 export async function getViewer(): Promise<Viewer | null> {
+  // Session checks compare token expiry with the clock (Date.now), which Next.js forbids while
+  // prerendering or runtime-prefetching. Wait for a real request before touching the session.
+  await connection();
   const supabase = await createClient();
   const {
     data: { user },

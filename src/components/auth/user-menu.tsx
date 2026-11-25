@@ -15,16 +15,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
+import { initials } from "@/lib/format";
 import { useViewer } from "./viewer-provider";
-
-export function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .map((p) => p[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-}
 
 export function UserMenu() {
   const { viewer, loading } = useViewer();

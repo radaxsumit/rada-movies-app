@@ -7,7 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { EyeOffIcon, HeartIcon } from "lucide-react";
 import { toast } from "sonner";
 import { setLike } from "@/app/actions/reviews";
-import { initials } from "@/components/auth/user-menu";
+import { initials } from "@/lib/format";
 import { useViewer } from "@/components/auth/viewer-provider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getVerdict, type VerdictId } from "@/config/verdicts";

@@ -47,3 +47,14 @@ export function ageFrom(birthday: string, on?: string | null) {
   if (beforeBirthday) age -= 1;
   return Number.isFinite(age) ? age : null;
 }
+
+/** "Sumit Prajapati" → "SP" (avatar fallback). */
+export function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((p) => p[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
