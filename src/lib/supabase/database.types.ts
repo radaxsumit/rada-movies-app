@@ -1,6 +1,6 @@
 /**
  * Generated from the live Supabase schema (project rada-movies).
- * Regenerate after schema changes: `npx supabase gen types typescript --project-id varfphmktrxixbotczvj`.
+ * Regenerate after schema changes: `npx supabase gen types typescript --project-id <your-project-ref>`.
  */
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 

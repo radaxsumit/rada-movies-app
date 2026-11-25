@@ -22,14 +22,26 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-300",
-        scrolled
-          ? "border-b bg-background/80 backdrop-blur-xl"
-          : "border-b border-transparent bg-gradient-to-b from-background/90 to-transparent",
-      )}
-    >
+    <header className="fixed inset-x-0 top-0 isolate z-50">
+      {/*
+        No border: the background is a blurred layer that fades out below the header,
+        so it melts into the page instead of ending in a hard line.
+      */}
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 -bottom-8 -z-10 transition-opacity duration-300",
+          "bg-background/75 [mask-image:linear-gradient(to_bottom,black_55%,transparent)] backdrop-blur-xl",
+          scrolled ? "opacity-100" : "opacity-0",
+        )}
+      />
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 -bottom-10 -z-10 bg-gradient-to-b from-background/85 via-background/40 to-transparent transition-opacity duration-300",
+          scrolled ? "opacity-0" : "opacity-100",
+        )}
+      />
       <div className="container-page flex h-16 items-center gap-8">
         <Logo />
 
