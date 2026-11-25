@@ -63,10 +63,10 @@ export function HeroCarousel({
           <motion.div
             key={slide.id}
             className="absolute inset-0"
-            initial={{ opacity: 0, scale: reduceMotion ? 1 : 1.06 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ opacity: { duration: 0.9 }, scale: { duration: INTERVAL_MS / 1000, ease: "linear" } }}
+            transition={{ duration: 0.9 }}
           >
             {backdrop && (
               <Image

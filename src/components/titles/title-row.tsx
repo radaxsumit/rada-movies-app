@@ -26,7 +26,6 @@ export function TitleRow({
           "hide-scrollbar flex snap-x gap-4 overflow-x-auto pb-2",
           contained && "container-page scroll-px-4 sm:scroll-px-6 lg:scroll-px-10",
         )}
-        data-lenis-prevent-wheel
       >
         {titles.map((title, i) => (
           <li key={`${title.mediaType}-${title.id}`} className="snap-start">

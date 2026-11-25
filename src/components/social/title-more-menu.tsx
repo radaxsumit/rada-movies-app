@@ -193,7 +193,7 @@ function AddToListDialog({
           <DialogDescription>{item.title}</DialogDescription>
         </DialogHeader>
 
-        <div className="max-h-72 space-y-1 overflow-y-auto" data-lenis-prevent>
+        <div className="max-h-72 space-y-1 overflow-y-auto">
           {isLoading ? (
             <Loader2Icon className="mx-auto size-5 animate-spin text-muted-foreground" />
           ) : lists?.length ? (

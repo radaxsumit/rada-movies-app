@@ -7,6 +7,23 @@ import { NextResponse, type NextRequest } from "next/server";
  * It does not block or redirect: pages that need a user check for one themselves.
  */
 export async function proxy(request: NextRequest) {
+  // Safety net for sign-in links: if Supabase falls back to the Site URL (e.g. the return address
+  // isn't in its Redirect URLs list), the one-time ?code= lands on a normal page. Hand it to the
+  // callback route so the sign-in still completes, then return to that page.
+  const { pathname, searchParams } = request.nextUrl;
+  const code = searchParams.get("code");
+  if (code && !pathname.startsWith("/auth/")) {
+    const callback = request.nextUrl.clone();
+    callback.pathname = "/auth/callback";
+    callback.search = "";
+    callback.searchParams.set("code", code);
+    const rest = new URLSearchParams(searchParams);
+    rest.delete("code");
+    const back = `${pathname}${rest.size ? `?${rest}` : ""}`;
+    callback.searchParams.set("next", back);
+    return NextResponse.redirect(callback);
+  }
+
   let response = NextResponse.next({ request });
 
   // Skip the auth round-trip for visitors who have never signed in.

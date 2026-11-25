@@ -68,7 +68,7 @@ export function TitleCarousel({
       </div>
 
       <div className="relative">
-        <div ref={viewportRef} className="overflow-hidden" data-lenis-prevent-wheel>
+        <div ref={viewportRef} className="overflow-hidden">
           <ul className="container-page flex gap-4 pb-2">
             {titles.map((title, i) => (
               <li key={`${title.mediaType}-${title.id}`} className="shrink-0">

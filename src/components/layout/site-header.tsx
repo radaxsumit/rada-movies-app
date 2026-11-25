@@ -31,8 +31,9 @@ export function SiteHeader() {
         aria-hidden
         className={cn(
           "pointer-events-none absolute inset-x-0 top-0 -bottom-8 -z-10 transition-opacity duration-300",
-          "bg-background/75 [mask-image:linear-gradient(to_bottom,black_55%,transparent)] backdrop-blur-xl",
-          scrolled ? "opacity-100" : "opacity-0",
+          "bg-background/80 [mask-image:linear-gradient(to_bottom,black_55%,transparent)]",
+          // The blur is only applied while visible: an invisible backdrop-filter still costs a repaint per frame.
+          scrolled ? "opacity-100 backdrop-blur-md" : "opacity-0",
         )}
       />
       <div

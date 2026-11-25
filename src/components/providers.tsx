@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactLenis } from "lenis/react";
 import { ViewerProvider } from "@/components/auth/viewer-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 
-/** Client-side providers: data cache, smooth scrolling, tooltips, toasts. */
+/** Client-side providers: data cache, signed-in viewer, tooltips, toasts. */
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
     () =>
@@ -20,7 +19,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactLenis root options={{ lerp: 0.1, smoothWheel: true }} />
       <ViewerProvider>
         <TooltipProvider delayDuration={200}>
           {children}

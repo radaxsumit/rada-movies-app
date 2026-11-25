@@ -117,18 +117,6 @@
   @apply mx-auto w-full max-w-[90rem] px-4 sm:px-6 lg:px-10;
 }
 
-/* Lenis smooth scrolling (https://github.com/darkroomengineering/lenis) */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis:not(.lenis-autoToggle).lenis-stopped {
-  overflow: clip;
-}
-.lenis [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
