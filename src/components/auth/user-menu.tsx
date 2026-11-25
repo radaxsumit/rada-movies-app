@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookmarkIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
+import { BookmarkIcon, CalendarCheckIcon, ListIcon, LogOutIcon, SettingsIcon, UserIcon, UsersIcon } from "lucide-react";
 import { signOut } from "@/app/actions/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -60,6 +60,21 @@ export function UserMenu() {
         <DropdownMenuItem asChild>
           <Link href={`/u/${viewer.username}`}>
             <UserIcon /> Your profile
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/feed">
+            <UsersIcon /> Friends’ activity
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/u/${viewer.username}/diary`}>
+            <CalendarCheckIcon /> Diary
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/u/${viewer.username}/lists`}>
+            <ListIcon /> Your lists
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

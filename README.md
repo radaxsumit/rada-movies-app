@@ -79,36 +79,13 @@ Create a Supabase project, then apply the schema:
    redirect URI `https://varfphmktrxixbotczvj.supabase.co/auth/v1/callback`), then paste the client ID and
    secret into **Authentication → Providers → Google**. The "Continue with Google" button appears automatically.
 
-### Watch free (legal streaming)
-
-`/free` and `/watch/[id]` stream full films we are allowed to show, from the curated
-`free_titles` table. Users can only read it; titles are added by you in the Supabase SQL editor.
-
-**Only add a film if it is one of:**
-
-- **Public domain in India _and_ the US.** Indian film copyright lasts 60 years from release, so in practice
-  films released **before 1965**. Use the Internet Archive item (`source = 'archive'`, `source_id` = the
-  identifier in `archive.org/details/<identifier>`) and check it has an `.mp4` file.
-- **Released free by the rights holder** (e.g. CC0 / CC BY, like _Sita Sings the Blues_).
-- **An official full-length upload on the rights holder's own YouTube channel** (`source = 'youtube'`,
-  `source_id` = the video id).
-
-```sql
-insert into public.free_titles (tmdb_id, media_type, source, source_id, license, license_url, featured)
-values (653, 'movie', 'archive', 'Nosferatu_DVD_quality', 'Public domain',
-        'https://creativecommons.org/publicdomain/mark/1.0/', false);
-```
-
-New titles appear within an hour (the catalogue is cached), with posters and details from TMDB.
-
 ## Roadmap
 
 - **Phase 0 – Foundation** ✅ Next.js + TS, design tokens, shadcn/ui, TMDB service, Supabase clients + schema
 - **Phase 1 – Core** ✅ Movie, show, season and person pages (trailer, where to watch, cast, verdict summary, more like this), 404 + error pages
 - **Phase 2 – Discovery** ✅ Rotating trailer hero, Embla carousel rows (trending, Indian, Netflix/Prime/JioHotstar, upcoming, top rated), mood chips, Ctrl+K search + /search, /movies and /tv browse with filters and infinite scroll, mobile menu
 - **Phase 3 – Community** ✅ Email magic-link sign-in (+ Google when enabled), onboarding, profiles at /u/[username], four-verdict reviews with spoiler blur, likes, comments with replies, watchlist
-- **Watch free** ✅ 25 public-domain / CC0 films streaming from Internet Archive, /free page, /watch player, Watch free buttons on title pages
-- **Phase 4 – Fun** Lists, diary, follows feed, mood tags, watch rooms
+- **Phase 4 – Social** ✅ Custom lists (public/private) at /lists, watch diary, follows, friends' activity feed at /feed, profile tabs
 - **Phase 5 – Ship** SEO/OG images, analytics, Sentry, moderation, custom domain
 
 ## Attribution

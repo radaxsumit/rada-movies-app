@@ -5,8 +5,7 @@ import { TitleDetailSkeleton, TitleDetailView } from "@/components/titles/detail
 import { getPopular } from "@/lib/tmdb/client";
 import { getTv } from "@/lib/tmdb/details";
 import { titleMetadata } from "@/lib/metadata";
-import { getFreeOffer } from "@/lib/free";
-import { parseIdParam, slugify, watchHref } from "@/lib/routes";
+import { parseIdParam, slugify } from "@/lib/routes";
 
 /** Prebuild today's most popular shows; every other show renders on first visit, then is cached. */
 export async function generateStaticParams() {
@@ -30,7 +29,7 @@ export default function ShowPage({ params }: PageProps<"/tv/[id]">) {
 
 async function ShowDetail({ params }: Pick<PageProps<"/tv/[id]">, "params">) {
   const id = parseIdParam((await params).id);
-  const [show, free] = id ? await Promise.all([getTv(id), getFreeOffer("tv", id)]) : [null, null];
+  const show = id ? await getTv(id) : null;
   if (!show) notFound();
-  return <TitleDetailView title={show} watchHref={free ? watchHref("tv", show.id, show.title) : undefined} />;
+  return <TitleDetailView title={show} />;
 }

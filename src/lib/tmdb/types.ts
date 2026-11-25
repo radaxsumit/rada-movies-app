@@ -47,10 +47,6 @@ export interface TitleCard {
   backdropPath: string | null;
   rating: number | null;
   overview: string;
-  /** Override the link (e.g. straight to the free player). Defaults to the title page. */
-  href?: string;
-  /** Small label on the poster, e.g. "Free". */
-  badge?: string;
 }
 
 /* ───────────── Normalised detail models (what pages consume) ───────────── */

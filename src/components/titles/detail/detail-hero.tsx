@@ -1,16 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PlayIcon, StarIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { StarIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatRuntime } from "@/lib/format";
 import { personHref } from "@/lib/routes";
 import { backdropUrl, logoUrl, posterUrl } from "@/lib/tmdb/images";
 import type { TitleDetail } from "@/lib/tmdb/types";
 import { TitleActions } from "@/components/reviews/title-actions";
+import { TitleMoreMenu } from "@/components/social/title-more-menu";
 import { TrailerButton } from "./trailer-button";
 
-export function DetailHero({ title, watchHref }: { title: TitleDetail; watchHref?: string }) {
+export function DetailHero({ title }: { title: TitleDetail }) {
   const backdrop = backdropUrl(title.backdropPath, "original");
   const logo = logoUrl(title.logoPath);
   const meta = [
@@ -109,16 +109,9 @@ export function DetailHero({ title, watchHref }: { title: TitleDetail; watchHref
           )}
 
           <div className="flex flex-wrap gap-3 pt-1">
-            {watchHref && (
-              <Button asChild size="lg" className="gap-2 rounded-full">
-                <Link href={watchHref}>
-                  <PlayIcon className="size-4 fill-current" />
-                  Watch free
-                </Link>
-              </Button>
-            )}
             {title.trailer && <TrailerButton trailer={title.trailer} title={title.title} />}
             <TitleActions mediaType={title.mediaType} tmdbId={title.id} title={title.title} />
+            <TitleMoreMenu mediaType={title.mediaType} tmdbId={title.id} title={title.title} />
           </div>
         </div>
       </div>

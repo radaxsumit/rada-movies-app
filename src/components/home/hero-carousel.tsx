@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { InfoIcon, PlayIcon, StarIcon } from "lucide-react";
+import { InfoIcon, StarIcon } from "lucide-react";
 import { TrailerButton } from "@/components/titles/detail/trailer-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -150,16 +150,7 @@ export function HeroCarousel({
             </p>
 
             <div className="flex flex-wrap gap-3">
-              {slide.watchHref ? (
-                <Button asChild size="lg" className="gap-2 rounded-full">
-                  <Link href={slide.watchHref}>
-                    <PlayIcon className="size-4 fill-current" />
-                    Watch free
-                  </Link>
-                </Button>
-              ) : (
-                slide.trailer && <TrailerButton trailer={slide.trailer} title={slide.title} />
-              )}
+              {slide.trailer && <TrailerButton trailer={slide.trailer} title={slide.title} />}
               <Button asChild size="lg" variant="secondary" className="gap-2 rounded-full">
                 <Link href={href}>
                   <InfoIcon className="size-4" />

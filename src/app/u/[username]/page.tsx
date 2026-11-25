@@ -3,12 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { initials } from "@/lib/format";
 import { ReviewCard } from "@/components/reviews/review-list";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { verdicts } from "@/config/verdicts";
-import { formatDate } from "@/lib/format";
 import { getProfileByUsername, getUserReviews } from "@/lib/reviews";
 import { titleHref } from "@/lib/routes";
 import { posterUrl } from "@/lib/tmdb/images";
@@ -16,10 +13,6 @@ import { getTitleCards } from "@/lib/tmdb/lookup";
 import { cn } from "@/lib/utils";
 
 type Props = PageProps<"/u/[username]">;
-
-export async function generateStaticParams() {
-  return [{ username: "__placeholder__" }];
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const profile = await getProfileByUsername((await params).username);
@@ -34,11 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function ProfilePage({ params }: Props) {
   return (
-    <div className="container-page max-w-4xl pt-28 pb-10">
-      <Suspense fallback={<Skeleton className="h-64 rounded-2xl" />}>
-        <Profile params={params} />
-      </Suspense>
-    </div>
+    <Suspense fallback={<Skeleton className="h-64 rounded-2xl" />}>
+      <Profile params={params} />
+    </Suspense>
   );
 }
 
@@ -55,20 +46,6 @@ async function Profile({ params }: Pick<Props, "params">) {
 
   return (
     <div className="space-y-10">
-      <header className="flex flex-col gap-6 sm:flex-row sm:items-center">
-        <Avatar className="size-24 ring-2 ring-border">
-          {profile.avatarUrl && <AvatarImage src={profile.avatarUrl} alt="" />}
-          <AvatarFallback className="bg-ember-soft text-2xl font-semibold">{initials(name)}</AvatarFallback>
-        </Avatar>
-        <div className="space-y-2">
-          <h1 className="font-display text-5xl leading-none tracking-wide">{name}</h1>
-          <p className="text-sm text-muted-foreground">
-            @{profile.username} · Joined {formatDate(profile.joinedAt.slice(0, 10))}
-          </p>
-          {profile.bio && <p className="max-w-xl">{profile.bio}</p>}
-        </div>
-      </header>
-
       <section aria-label="Verdict stats" className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         <Stat label="Verdicts" value={reviews.length} />
         {verdicts.map((v) => (

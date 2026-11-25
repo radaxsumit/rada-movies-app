@@ -14,11 +14,10 @@ import { VerdictSummary, VerdictSummarySkeleton } from "./verdict-summary";
 import { WhereToWatch } from "./where-to-watch";
 
 /** Shared layout for movie and show pages. */
-/** `watchHref` is set when the title is in our free catalogue. */
-export function TitleDetailView({ title, watchHref }: { title: TitleDetail; watchHref?: string }) {
+export function TitleDetailView({ title }: { title: TitleDetail }) {
   return (
     <article>
-      <DetailHero title={title} watchHref={watchHref} />
+      <DetailHero title={title} />
 
       <div className="container-page grid gap-10 py-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="min-w-0 space-y-12">

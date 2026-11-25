@@ -25,17 +25,6 @@ export function seasonHref(showId: number, showTitle: string, seasonNumber: numb
   return `${titleHref("tv", showId, showTitle)}/season/${seasonNumber}`;
 }
 
-/** Free player: /watch/653-nosferatu for movies, /watch/tv-1234-name for shows. */
-export function watchHref(mediaType: MediaType, id: number, title?: string) {
-  return `/watch/${mediaType === "tv" ? "tv-" : ""}${withSlug(id, title)}`;
-}
-
-export function parseWatchParam(param: string): { mediaType: MediaType; id: number } | null {
-  const isTv = param.startsWith("tv-");
-  const id = parseIdParam(isTv ? param.slice(3) : param);
-  return id ? { mediaType: isTv ? "tv" : "movie", id } : null;
-}
-
 export function personHref(id: number, name?: string) {
   return `/person/${withSlug(id, name)}`;
 }

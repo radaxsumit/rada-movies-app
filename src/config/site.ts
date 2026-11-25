@@ -14,7 +14,7 @@ export const site = {
     { label: "Home", href: "/" },
     { label: "Movies", href: "/movies" },
     { label: "Shows", href: "/tv" },
-    { label: "Watch free", href: "/free" },
+    { label: "Lists", href: "/lists" },
   ],
 } as const;
 

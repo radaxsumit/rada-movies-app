@@ -17,7 +17,7 @@ export function TitleCard({
 }) {
   return (
     <Link
-      href={title.href ?? titleHref(title.mediaType, title.id, title.title)}
+      href={titleHref(title.mediaType, title.id, title.title)}
       className={cn("group block w-36 shrink-0 sm:w-44", className)}
     >
       <div className="relative aspect-[2/3] overflow-hidden rounded-xl bg-muted ring-1 ring-border transition duration-300 group-hover:-translate-y-1 group-hover:ring-ember/60">
@@ -29,11 +29,6 @@ export function TitleCard({
           priority={priority}
           className="object-cover transition duration-500 group-hover:scale-105"
         />
-        {title.badge && (
-          <span className="absolute top-2 right-2 rounded-full bg-verdict-must px-2 py-0.5 text-[10px] font-bold tracking-wider text-background uppercase">
-            {title.badge}
-          </span>
-        )}
         {title.rating !== null && (
           <span className="absolute top-2 left-2 flex items-center gap-1 rounded-full bg-background/80 px-2 py-0.5 text-xs font-semibold backdrop-blur">
             <StarIcon className="size-3 fill-current text-verdict-one-time" />
