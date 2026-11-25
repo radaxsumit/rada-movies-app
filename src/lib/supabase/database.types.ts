@@ -19,12 +19,6 @@ export type Database = {
           { foreignKeyName: "diary_entries_user_id_fkey"; columns: ["user_id"]; isOneToOne: false; referencedRelation: "profiles"; referencedColumns: ["id"] },
         ];
       };
-      free_titles: {
-        Row: { added_at: string; featured: boolean; id: string; license: string; license_url: string | null; media_type: MediaType; sort_order: number; source: string; source_id: string; tmdb_id: number };
-        Insert: { added_at?: string; featured?: boolean; id?: string; license: string; license_url?: string | null; media_type?: MediaType; sort_order?: number; source: string; source_id: string; tmdb_id: number };
-        Update: { added_at?: string; featured?: boolean; id?: string; license?: string; license_url?: string | null; media_type?: MediaType; sort_order?: number; source?: string; source_id?: string; tmdb_id?: number };
-        Relationships: [];
-      };
       follows: {
         Row: { created_at: string; follower_id: string; following_id: string };
         Insert: { created_at?: string; follower_id: string; following_id: string };
