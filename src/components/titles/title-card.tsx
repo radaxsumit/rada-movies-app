@@ -26,7 +26,7 @@ export function TitleCard({
           alt={title.title}
           fill
           sizes="(min-width: 640px) 176px, 144px"
-          priority={priority}
+          preload={priority}
           className="object-cover transition duration-500 group-hover:scale-105"
         />
         {title.rating !== null && (

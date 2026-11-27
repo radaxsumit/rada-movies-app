@@ -3,6 +3,10 @@ import { cacheLife, cacheTag } from "next/cache";
 import { tmdbFetch } from "./fetch";
 import type { MediaType, Paged, TitleCard, TitleListItem } from "./types";
 
+function clip(text: string, max: number) {
+  return text.length > max ? `${text.slice(0, max).replace(/\s+\S*$/, "")}…` : text;
+}
+
 export function toTitleCard(item: TitleListItem, fallbackType?: MediaType): TitleCard {
   const isTv = item.media_type === "tv" || (!item.media_type && fallbackType === "tv") || "name" in item;
   const date = isTv
@@ -16,7 +20,8 @@ export function toTitleCard(item: TitleListItem, fallbackType?: MediaType): Titl
     posterPath: item.poster_path,
     backdropPath: item.backdrop_path,
     rating: item.vote_count > 0 ? Math.round(item.vote_average * 10) / 10 : null,
-    overview: item.overview,
+    // Cards only show a 4-line preview; full text would double the page data on long rows.
+    overview: clip(item.overview, 220),
   };
 }
 

@@ -90,7 +90,7 @@ async function PersonDetail({ params }: Pick<Props, "params">) {
         <aside className="space-y-6">
           <div className="relative mx-auto aspect-[2/3] w-full max-w-[280px] overflow-hidden rounded-2xl bg-muted ring-1 ring-border">
             {photo ? (
-              <Image src={photo} alt={person.name} fill priority sizes="280px" className="object-cover" />
+              <Image src={photo} alt={person.name} fill preload sizes="280px" className="object-cover" />
             ) : (
               <UserIcon className="absolute inset-0 m-auto size-16 text-muted-foreground" aria-hidden />
             )}

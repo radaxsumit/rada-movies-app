@@ -22,7 +22,7 @@ export default function HomePage() {
       </Suspense>
 
       <div className="relative z-10 mt-2 space-y-14">
-        <Row heading="Trending today" eyebrow="Hot right now" load={() => getTrending("day")} priority />
+        <Row heading="Trending today" eyebrow="Hot right now" load={() => getTrending("day")} />
         <MoodChips />
         <DiscoverRow
           heading="Popular Indian movies"
@@ -70,13 +70,7 @@ async function Hero() {
 }
 
 /** A carousel row that streams in independently, so one slow request never blocks the page. */
-function Row(props: {
-  heading: string;
-  eyebrow?: string;
-  seeAllHref?: string;
-  priority?: boolean;
-  load: () => Promise<TitleCard[]>;
-}) {
+function Row(props: { heading: string; eyebrow?: string; seeAllHref?: string; load: () => Promise<TitleCard[]> }) {
   return (
     <Suspense fallback={<TitleRowSkeleton heading={props.heading} />}>
       <RowContent {...props} />

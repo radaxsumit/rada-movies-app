@@ -27,9 +27,9 @@ export function TitleRow({
           contained && "container-page scroll-px-4 sm:scroll-px-6 lg:scroll-px-10",
         )}
       >
-        {titles.map((title, i) => (
+        {titles.map((title) => (
           <li key={`${title.mediaType}-${title.id}`} className="snap-start">
-            <TitleCard title={title} priority={i < 4} />
+            <TitleCard title={title} />
           </li>
         ))}
       </ul>

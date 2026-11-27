@@ -11,7 +11,7 @@ import { TitleMoreMenu } from "@/components/social/title-more-menu";
 import { TrailerButton } from "./trailer-button";
 
 export function DetailHero({ title }: { title: TitleDetail }) {
-  const backdrop = backdropUrl(title.backdropPath, "original");
+  const backdrop = backdropUrl(title.backdropPath, "w1280");
   const logo = logoUrl(title.logoPath);
   const meta = [
     title.mediaType === "tv" ? "Show" : "Movie",
@@ -25,7 +25,15 @@ export function DetailHero({ title }: { title: TitleDetail }) {
     <section className="relative isolate overflow-hidden pt-16">
       <div className="absolute inset-0 -z-10">
         {backdrop && (
-          <Image src={backdrop} alt="" fill priority sizes="100vw" className="object-cover object-top opacity-50" />
+          <Image
+            src={backdrop}
+            alt=""
+            fill
+            preload
+            fetchPriority="high"
+            sizes="100vw"
+            className="object-cover object-top opacity-50"
+          />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
@@ -37,7 +45,6 @@ export function DetailHero({ title }: { title: TitleDetail }) {
             src={posterUrl(title.posterPath, "w500")}
             alt={`${title.title} poster`}
             fill
-            priority
             sizes="260px"
             className="object-cover"
           />
@@ -67,7 +74,6 @@ export function DetailHero({ title }: { title: TitleDetail }) {
                 alt=""
                 width={500}
                 height={200}
-                priority
                 className="h-auto max-h-36 w-auto max-w-[min(100%,420px)] object-contain object-left drop-shadow-2xl"
               />
             </h1>

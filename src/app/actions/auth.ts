@@ -57,8 +57,8 @@ export async function signInWithGoogle(formData: FormData) {
   redirect(data.url);
 }
 
+/** Clears the session cookies. The caller reloads the page so every component starts signed out. */
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  redirect("/");
 }

@@ -28,7 +28,7 @@ export function UserMenu() {
     const next = pathname === "/sign-in" ? "/" : pathname;
     return (
       <Button asChild size="sm" className="gap-2 rounded-full">
-        <Link href={`/sign-in?next=${encodeURIComponent(next)}`}>
+        <Link href={`/sign-in?next=${encodeURIComponent(next)}`} aria-label="Sign in">
           <UserIcon className="size-4" />
           <span className="hidden sm:inline">Sign in</span>
         </Link>
@@ -88,7 +88,14 @@ export function UserMenu() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <form action={signOut}>
+        <form
+          action={async () => {
+            await signOut();
+            // Deliberate full reload (not router.push): resets client caches and the viewer state in one go.
+            // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+            window.location.assign("/");
+          }}
+        >
           <DropdownMenuItem asChild>
             <button type="submit" className="w-full">
               <LogOutIcon /> Sign out
